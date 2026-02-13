@@ -14,11 +14,11 @@ Procedurally generated dungeons, permadeath, turn-based tactics. Every run is di
 
 ### 1. Install prerequisites
 
-| Tool | Install |
-|---|---|
+| Tool                                            | Install                                                                      |
+| ----------------------------------------------- | ---------------------------------------------------------------------------- |
 | [Godot 4.6+](https://godotengine.org/download/) | `brew install --cask godot` or [download](https://godotengine.org/download/) |
-| [Git LFS](https://git-lfs.com/) | `brew install git-lfs` |
-| [Node.js](https://nodejs.org/) | `brew install node` (needed for MCP server) |
+| [Git LFS](https://git-lfs.com/)                 | `brew install git-lfs`                                                       |
+| [Node.js](https://nodejs.org/)                  | `brew install node` (needed for MCP server)                                  |
 
 ### 2. Clone and set up
 
@@ -49,9 +49,33 @@ Both developers use AI coding tools. Everything is pre-configured in the repo.
 Open the project folder in Antigravity. It auto-loads:
 
 - **`.antigravity/rules.md`** — GDScript coding standards and project rules
-- **`.antigravity/mcp.json`** — Godot MCP server (project-scoped, connects AI to the Godot editor)
+- **`.antigravity/rules.md`** — GDScript coding standards and project rules
 
-No manual MCP configuration needed. It just works.
+### Godot MCP Setup
+
+1. **Build the Server**:
+
+   ```bash
+   cd .mcp/godot-mcp/server
+   npm install
+   npm run build
+   ```
+
+2. **Configure Antigravity**:
+   Add this to your global MCP config (e.g. `~/.gemini/antigravity/mcp_config.json`):
+   ```json
+   {
+     "mcpServers": {
+       "godot-mcp": {
+         "command": "node",
+         "args": [
+           "/ABSOLUTE/PATH/TO/rabbitson/.mcp/godot-mcp/server/dist/index.js"
+         ],
+         "env": { "MCP_TRANSPORT": "stdio" }
+       }
+     }
+   }
+   ```
 
 ### Claude Code
 
@@ -60,11 +84,13 @@ Open the project folder with Claude Code. It auto-loads:
 - **`.claude/CLAUDE.md`** — GDScript coding standards and project rules
 
 Optional Godot skills (run outside a Claude session):
+
 ```bash
 npx ai-agent-skills install Randroids-Dojo/Godot-Claude-Skills --agent claude
 ```
 
 Optional MCP (connect Claude Code to the Godot editor):
+
 ```bash
 claude mcp add godot-mcp node .mcp/godot-mcp/server/dist/index.js
 ```
