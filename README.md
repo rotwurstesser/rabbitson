@@ -6,9 +6,84 @@ Procedurally generated dungeons, permadeath, turn-based tactics. Every run is di
 
 ## Tech Stack
 
-- **Engine**: [Godot 4.4+](https://godotengine.org/)
+- **Engine**: [Godot 4.6+](https://godotengine.org/)
 - **Language**: GDScript (statically typed)
 - **Architecture**: Signal-driven, autoload singletons, component systems
+
+## Getting Started
+
+### 1. Install prerequisites
+
+| Tool | Install |
+|---|---|
+| [Godot 4.6+](https://godotengine.org/download/) | `brew install --cask godot` or [download](https://godotengine.org/download/) |
+| [Git LFS](https://git-lfs.com/) | `brew install git-lfs` |
+| [Node.js](https://nodejs.org/) | `brew install node` (needed for MCP server) |
+
+### 2. Clone and set up
+
+```bash
+git clone https://github.com/rotwurstesser/rabbitson.git
+cd rabbitson
+./scripts/setup.sh
+```
+
+The setup script installs dependencies, builds the MCP server, and checks your environment.
+
+### 3. Enable the Godot MCP plugin
+
+1. Open `project.godot` in Godot
+2. Go to **Project > Project Settings > Plugins**
+3. Enable **"Godot MCP"**
+
+### 4. Start developing
+
+Open the project folder in your AI tool of choice (Claude Code or Antigravity) and start building.
+
+## AI-Assisted Development
+
+Both developers use AI coding tools. Everything is pre-configured in the repo.
+
+### Google Antigravity
+
+Open the project folder in Antigravity. It auto-loads:
+
+- **`.antigravity/rules.md`** — GDScript coding standards and project rules
+- **`.antigravity/mcp.json`** — Godot MCP server (project-scoped, connects AI to the Godot editor)
+
+No manual MCP configuration needed. It just works.
+
+### Claude Code
+
+Open the project folder with Claude Code. It auto-loads:
+
+- **`.claude/CLAUDE.md`** — GDScript coding standards and project rules
+
+Optional Godot skills (run outside a Claude session):
+```bash
+npx ai-agent-skills install Randroids-Dojo/Godot-Claude-Skills --agent claude
+```
+
+Optional MCP (connect Claude Code to the Godot editor):
+```bash
+claude mcp add godot-mcp node .mcp/godot-mcp/server/dist/index.js
+```
+
+### Godot MCP Server
+
+The [Godot MCP Server](https://github.com/ee0pdt/Godot-MCP) is bundled in the repo at `.mcp/godot-mcp/`. It lets AI tools interact with the Godot editor directly — create scenes, edit scripts, read errors, manipulate the scene tree.
+
+The MCP server is built automatically by `./scripts/setup.sh`. If you need to rebuild manually:
+
+```bash
+cd .mcp/godot-mcp/server
+npm install
+npm run build
+```
+
+### Shared Standards
+
+Both AI tools reference [docs/coding-standards.md](docs/coding-standards.md) as the single source of truth. Edit standards there, not in individual AI config files.
 
 ## Project Structure
 
@@ -18,102 +93,22 @@ rabbitson/
 ├── src/
 │   ├── autoload/           # Singletons (GameManager, EventBus)
 │   ├── entities/           # Player, enemies, NPCs
-│   │   ├── player/
-│   │   └── enemies/
 │   ├── world/              # Dungeon generation, tiles, rooms
-│   │   ├── dungeon/
-│   │   └── tiles/
 │   ├── systems/            # Combat, inventory, loot, turns
 │   └── ui/                 # HUD, menus, game over
-├── assets/
-│   ├── sprites/
-│   ├── audio/
-│   ├── fonts/
-│   └── shaders/
+├── assets/                 # Sprites, audio, fonts, shaders
 ├── test/                   # GdUnit4 tests
-├── addons/                 # Godot plugins
-└── docs/
-    └── coding-standards.md # Shared coding conventions
+├── addons/                 # Godot plugins (MCP included)
+├── .mcp/                   # MCP server (bundled)
+├── .claude/                # Claude Code config
+├── .antigravity/           # Google Antigravity config
+├── docs/                   # Coding standards
+└── scripts/                # Dev tooling
 ```
-
-## Getting Started
-
-### Prerequisites
-
-- [Godot 4.4+](https://godotengine.org/download/) (standard build, not .NET)
-- [Git](https://git-scm.com/) with [Git LFS](https://git-lfs.com/) installed
-
-### Clone and Open
-
-```bash
-git clone https://github.com/rotwurstesser/rabbitson.git
-cd rabbitson
-git lfs install
-```
-
-Open `project.godot` in the Godot editor.
-
-## AI-Assisted Development
-
-Both developers use AI coding tools. The project includes configuration for both.
-
-### Claude Code (Raphael)
-
-AI rules live in `.claude/CLAUDE.md`. Install the Godot skills:
-
-```bash
-# From the project root — install skills globally
-claude mcp add gdai-mcp -- npx -y @anthropic/gdai-mcp
-
-# Or install skills for this project
-# Copy skills to .claude/skills/ (see Skills section below)
-```
-
-**Recommended skills to install:**
-
-| Skill | Install |
-|---|---|
-| Godot Claude Skills | `npx ai-agent-skills install Randroids-Dojo/Godot-Claude-Skills --agent claude` |
-| GDScript Patterns | Search "Godot GDScript Patterns" on [mcpmarket.com](https://mcpmarket.com) |
-| GDScript Validate | Search "GDScript Validate" on [mcpmarket.com](https://mcpmarket.com) |
-| Godot 4 Code Gen | Search "Godot 4 Code Generation" on [mcpmarket.com](https://mcpmarket.com) |
-
-### Google Antigravity (Friend)
-
-AI rules live in `.antigravity/rules.md`. Antigravity reads this automatically.
-
-### GDAI MCP Server (Both Tools)
-
-The [GDAI MCP Server](https://gdaimcp.com/) lets AI tools control the Godot editor directly. It works with both Claude Code and Antigravity.
-
-**Setup:**
-
-1. Install `uv` (Python package manager):
-   ```bash
-   # macOS/Linux
-   curl -LsSf https://astral.sh/uv/install.sh | sh
-
-   # Windows
-   powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-   ```
-
-2. Download the GDAI MCP plugin from [gdaimcp.com](https://gdaimcp.com/docs/installation)
-
-3. Copy `addons/gdai-mcp-plugin-godot/` into this project's `addons/` folder
-
-4. In Godot: **Project > Project Settings > Plugins** > enable "GDAI MCP"
-
-5. Configure your AI tool:
-   - **Claude Code**: `claude mcp add gdai-mcp uv run <path-from-gdai-tab>`
-   - **Antigravity**: Paste the JSON config from the GDAI MCP tab in Godot into Antigravity's MCP settings
-
-### Shared Standards
-
-Both AI tools reference `docs/coding-standards.md` as the source of truth for GDScript conventions. Changes to coding standards should be made there, not in individual AI config files.
 
 ## Coding Standards
 
-See [docs/coding-standards.md](docs/coding-standards.md) for full details. Key rules:
+See [docs/coding-standards.md](docs/coding-standards.md). Key rules:
 
 - Static typing everywhere
 - `snake_case` files, functions, variables
@@ -122,6 +117,8 @@ See [docs/coding-standards.md](docs/coding-standards.md) for full details. Key r
 - Scripts live next to their scenes
 
 ## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for full details.
 
 1. Create a feature branch from `main`
 2. Follow the coding standards
