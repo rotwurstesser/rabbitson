@@ -17,19 +17,19 @@ A dark fantasy tactics roguelike where you lead a growing warband through proced
 
 ## 2. Core Identity
 
-| Attribute | Decision | Reference |
-|---|---|---|
-| **Genre** | Tactics Roguelike | Fire Emblem + Isaac + Slay the Spire |
-| **Perspective** | Top-down (2D) | Fire Emblem GBA, Advance Wars |
-| **Art Style** | Limbo-style silhouettes | Monochromatic, atmospheric, AI-generated |
-| **Combat** | Turn-based grid tactics, FE-style moderate RNG | Dynamic party size (1-6 units) vs scaled enemies |
-| **Structure** | Branching path dungeon runs with exit gates | Isaac-style "continue deeper" |
-| **Run length** | Variable: 60 min (early exit) to 3+ hours (full deep run) | Exit after any biome boss |
-| **Death** | Full permadeath, no permanent units | Dead units are gone. Bench is one-use. |
-| **Tone** | Dark with levity (Hades) | Gothic world, unsettling Rabbitson, humor in darkness |
-| **Difficulty** | One mode: Classic | Save between nodes, deleted on load. Corruption for scaling. |
-| **Engine** | Godot 4.4+ / GDScript | Signal-driven, component architecture |
-| **Multiplayer** | Never. Strictly solo. | |
+| Attribute       | Decision                                                  | Reference                                                    |
+| --------------- | --------------------------------------------------------- | ------------------------------------------------------------ |
+| **Genre**       | Tactics Roguelike                                         | Fire Emblem + Isaac + Slay the Spire                         |
+| **Perspective** | Top-down (2D)                                             | Fire Emblem GBA, Advance Wars                                |
+| **Art Style**   | Limbo-style silhouettes                                   | Monochromatic, atmospheric, AI-generated                     |
+| **Combat**      | Turn-based grid tactics, FE-style moderate RNG            | Dynamic party size (1-6 units) vs scaled enemies             |
+| **Structure**   | Branching path dungeon runs with exit gates               | Isaac-style "continue deeper"                                |
+| **Run length**  | Variable: 60 min (early exit) to 3+ hours (full deep run) | Exit after any biome boss                                    |
+| **Death**       | Full permadeath, no permanent units                       | Dead units are gone. Bench is one-use.                       |
+| **Tone**        | Dark with levity (Hades)                                  | Gothic world, unsettling Rabbitson, humor in darkness        |
+| **Difficulty**  | One mode: Classic                                         | Save between nodes, deleted on load. Corruption for scaling. |
+| **Engine**      | Godot 4.4+ / GDScript                                     | Signal-driven, component architecture                        |
+| **Multiplayer** | Never. Strictly solo.                                     |                                                              |
 
 ---
 
@@ -38,6 +38,7 @@ A dark fantasy tactics roguelike where you lead a growing warband through proced
 ### Style: Limbo-Inspired Silhouettes
 
 The game uses a monochromatic silhouette art style inspired by Playdead's LIMBO:
+
 - **Palette**: Black, white, and shades of gray
 - **Characters**: Dark silhouettes with minimal internal detail (glowing eyes, visible weapons)
 - **Environments**: Atmospheric fog layers, directional lighting, shadow pools
@@ -46,6 +47,7 @@ The game uses a monochromatic silhouette art style inspired by Playdead's LIMBO:
 ### Top-Down Adaptation
 
 LIMBO is a side-scroller. Adapting to top-down tactics requires:
+
 - Characters distinguished by **shape silhouette** from overhead (bulky = Vanguard, thin = Marksman, robed = Caster, small/agile = Scout)
 - Grid tiles use subtle gray variation for terrain differentiation
 - Fog of war (when active) integrates naturally with the atmospheric style
@@ -56,12 +58,14 @@ LIMBO is a side-scroller. Adapting to top-down tactics requires:
 **All game art assets will be generated using AI tools.** This is a hard production constraint.
 
 #### Recommended Pipeline
+
 1. **Concept/Ideation**: Nano Banana (Google Gemini 2.5 Flash Image) or Midjourney for mood boards and silhouette mockups
 2. **Production Sprites**: PixelLab or Stable Diffusion + ControlNet with a custom-trained LoRA on first 10-20 hand-drawn reference silhouettes
 3. **Animation Frames**: Dzine AI or PixelLab for frame-by-frame generation with pose editors for consistency
 4. **Manual Cleanup**: Budget 20% time for human refinement (alignment, pixel perfection, looping)
 
 #### Feasibility Notes
+
 - Monochromatic silhouettes are **theoretically easier** for AI (fewer variables: no color palette drift, rough edges read as atmospheric)
 - **No existing top-down tactics game uses pure silhouette style** — prototype early to test readability
 - AI animation gets ~80% there; humans handle final 20%
@@ -69,9 +73,11 @@ LIMBO is a side-scroller. Adapting to top-down tactics requires:
 - Train a custom LoRA on your own silhouette style after creating 10-20 reference assets
 
 #### Animation Style
+
 Frame-by-frame (classic), FE GBA-inspired. 4-8 frames per action. Tactics games need fewer animations than action games (idle, walk, attack, ability, hit, death).
 
 #### Key Research Links
+
 - [PixelLab](https://www.pixellab.ai/) — AI pixel art and sprite sheet generation
 - [Dzine AI](https://www.dzine.ai/tools/ai-sprite-generator/) — character-consistent sprite sheets
 - [Scenario](https://help.scenario.com/en/articles/create-spritesheets-with-scenario/) — style-locked asset generation
@@ -132,6 +138,7 @@ Frame-by-frame (classic), FE GBA-inspired. 4-8 frames per action. Tactics games 
 #### No Permanent Units
 
 All units are temporary. There is no persistent roster of safe characters.
+
 - **Bench**: Your saved units from previous runs. Limited slots (start 2, upgrade to 6). One-use: a benched unit used in a run is consumed regardless of outcome.
 - **Rabbitson's Safety Net**: If bench has < 3 units, Rabbitson provides free C-tier units to fill your starting squad of 3.
 - **No unit survives across runs.** Survivors are sold. The bench is stocked only from declined mid-run recruits.
@@ -140,29 +147,30 @@ All units are temporary. There is no persistent roster of safe characters.
 
 Tier IS the class variant. Higher tier = same archetype, better stats, more abilities. No separate rarity system.
 
-| Tier | Quality | Bench Rules | On Decline |
-|---|---|---|---|
-| **C-tier** | Basic class variant, low stats, 1-2 abilities | Can bench | Disappears |
-| **B-tier** | Improved variant, moderate stats, 2-3 abilities | Can bench | Disappears |
-| **A-tier** | Strong variant, high stats, 3-4 abilities | Can bench | Disappears |
-| **S-tier** | Legendary variant, top stats, unique mechanics | **CANNOT bench** | Drops a themed legendary item |
+| Tier       | Quality                                         | Bench Rules      | On Decline                    |
+| ---------- | ----------------------------------------------- | ---------------- | ----------------------------- |
+| **C-tier** | Basic class variant, low stats, 1-2 abilities   | Can bench        | Disappears                    |
+| **B-tier** | Improved variant, moderate stats, 2-3 abilities | Can bench        | Disappears                    |
+| **A-tier** | Strong variant, high stats, 3-4 abilities       | Can bench        | Disappears                    |
+| **S-tier** | Legendary variant, top stats, unique mechanics  | **CANNOT bench** | Drops a themed legendary item |
 
 S-tier units cannot be hoarded. Finding one is never wasted (you get a powerful item even if you decline), but you can't stockpile them for future runs.
 
 #### Four Archetypes (× 4 Tiers = 16 Unit Types)
 
-| Archetype | Role | Weapon Class | Tier Examples (C → S) |
-|---|---|---|---|
-| **Vanguard** | Front line tank/damage | Melee | Footsoldier → Sentinel → Warlord → Champion |
-| **Marksman** | Back line physical damage | Ranged | Archer → Longbow → Crossbow → Sniper |
-| **Caster** | Magic damage + support | Magic | Apprentice → Mage → Warlock → Archmage |
-| **Scout** | Speed/luck/recon/crit | Melee/Ranged hybrid | Thief → Ranger → Assassin → Phantom |
+| Archetype    | Role                      | Weapon Class        | Tier Examples (C → S)                       |
+| ------------ | ------------------------- | ------------------- | ------------------------------------------- |
+| **Vanguard** | Front line tank/damage    | Melee               | Footsoldier → Sentinel → Warlord → Champion |
+| **Marksman** | Back line physical damage | Ranged              | Archer → Longbow → Crossbow → Sniper        |
+| **Caster**   | Magic damage + support    | Magic               | Apprentice → Mage → Warlock → Archmage      |
+| **Scout**    | Speed/luck/recon/crit     | Melee/Ranged hybrid | Thief → Ranger → Assassin → Phantom         |
 
 Higher tiers have the same core archetype identity but better stats, more ability slots, and potentially unique passives.
 
 #### Recruit Identity
 
 Every recruit has:
+
 - **Procedural name** and brief backstory
 - **Personality traits** (gameplay-affecting): Brave (+ATK when outnumbered), Greedy (+gold on kill), Coward (-ATK at low HP), Lucky (+LCK), etc.
 - **Combat barks** (text reactions): lines on crit, death, low HP, ally death, boss encounter
@@ -177,31 +185,34 @@ Every recruit has:
 
 #### Stats
 
-| Stat | Abbrev | Description |
-|---|---|---|
-| Health Points | HP | 0 = dead for the run. Equipment lost. |
-| Attack | ATK | Physical damage output |
-| Magic | MAG | Magical damage output |
-| Defense | DEF | Physical damage reduction |
-| Resistance | RES | Magical damage reduction |
-| Speed | SPD | Action priority within phase, dodge chance modifier |
-| Movement | MOV | Tiles per turn (typically 3-5) |
-| Luck | LCK | Loot quality, recruit quality, hidden path discovery. Party LCK = **average** of all units. |
-| Critical | CRIT | Critical hit chance. Separate from LCK. |
+| Stat          | Abbrev | Description                                                                                 |
+| ------------- | ------ | ------------------------------------------------------------------------------------------- |
+| Health Points | HP     | 0 = dead for the run. Equipment lost.                                                       |
+| Attack        | ATK    | Physical damage output                                                                      |
+| Magic         | MAG    | Magical damage output                                                                       |
+| Defense       | DEF    | Physical damage reduction                                                                   |
+| Resistance    | RES    | Magical damage reduction                                                                    |
+| Speed         | SPD    | Action priority within phase, dodge chance modifier                                         |
+| Movement      | MOV    | Tiles per turn (typically 3-5)                                                              |
+| Luck          | LCK    | Loot quality, recruit quality, hidden path discovery. Party LCK = **average** of all units. |
+| Critical      | CRIT   | Critical hit chance. Separate from LCK.                                                     |
 
 **LCK and CRIT are separate stats.**
+
 - LCK: meta-reward stat. Affects drop quality, recruit tier chances, hidden path visibility. Most units have low LCK (~0.2/10). Specialist Scouts may have 2+.
 - CRIT: combat stat. Determines critical hit probability. Boosted by equipment and abilities, not carrots.
 
 **Adding low-LCK units to the party dilutes average party LCK.** This creates a composition trade-off: do you bring the fragile lucky Scout for better drops, or a tanky Vanguard for safer combat?
 
 #### Leveling
+
 - **XP from kills**: Killing blow = full XP. Assist (dealt damage that turn) = 50% XP.
 - **Level range per run**: 1-10
 - **Stat growth**: Each level-up rolls per stat (FE-style percentages)
 - **Level-up ability choices**: At specific levels, choose 1 of 2 abilities
 
 #### Cash Value Formula
+
 Surviving units sold at run end. Value = base (by tier) + level bonus + milestone bonuses.
 
 **Base value by tier:**
@@ -215,6 +226,7 @@ Surviving units sold at run end. Value = base (by tier) + level bonus + mileston
 **Level bonus**: +5 gold per level above 1 (level 8 C-tier = 30 + 35 = 65 gold)
 
 **Milestone bonuses** (cumulative):
+
 - First kill in a run: +10 gold
 - Boss killing blow: +50 gold
 - Survived at 1 HP: +20 gold
@@ -223,54 +235,65 @@ Surviving units sold at run end. Value = base (by tier) + level bonus + mileston
 ### 4.3 Combat System
 
 #### Philosophy
+
 FE-style tactics with moderate RNG. **Not** ITB-style perfect-information puzzles. Combat is about reading the battlefield, adapting under uncertainty, and managing risk.
 
 #### Grid
+
 Top-down square grid. Size scales with total units on field:
 
 | Total Units (player + enemy) | Grid Size |
-|---|---|
-| 5-8 | 8x8 |
-| 9-14 | 10x10 |
-| 15-20 | 12x12 |
-| 20+ | 14x14 |
+| ---------------------------- | --------- |
+| 5-8                          | 8x8       |
+| 9-14                         | 10x10     |
+| 15-20                        | 12x12     |
+| 20+                          | 14x14     |
 
 #### Deployment Phase
+
 Before each combat, the player places their units in a **deployment zone**:
+
 - Zone shape varies by map (2 rows on edge, corner, corridor, split across two sides)
 - Placement is strategic: archers behind, tanks front
 - Enemy composition is UNKNOWN at deployment (blind entry)
 - Some enemies (assassins, flankers) may spawn behind the expected front line
 
 #### Turn Order
+
 Team-based alternating:
+
 1. **Player Phase**: Move and act with ALL your units in any order
 2. **Enemy Phase**: Enemies act (no telegraphing — observe, adapt, react)
 3. Repeat
 
 #### Enemy Information
+
 - **Hover**: See enemy movement range + attack range
 - **Right-click inspect**: See base stats (ATK, DEF, etc.)
 - **Hidden**: Buffs and debuffs may not be visible
 - **First encounter**: New enemy types show "???" stats until you fight them once (persists in bestiary across runs)
 
 #### Actions Per Unit Per Turn
+
 - 1 Move (up to MOV stat in tiles)
 - 1 Action (basic attack, ability, item, or wait)
 - Move and Action can happen in either order
 - **Undo**: Moves can be undone freely. Actions (attacks/abilities) cannot.
 
 #### Damage Formula
+
 ```
 damage = (ATK * weapon_modifier * type_advantage) - DEF
 ```
 
 **Moderate RNG**: Hit rates (~85-100%), dodge chance (SPD-based), critical hits (CRIT stat).
+
 - Crits deal 1.5x damage
 - Misses are possible but uncommon for most attacks
 - Type advantage modifiers create dramatic damage swings
 
 #### Enemy Scaling (Dynamic)
+
 Combat scales based on **party size** AND **average party level** with **variance**:
 
 - Party size → enemy COUNT (more units = more enemies)
@@ -279,57 +302,69 @@ Combat scales based on **party size** AND **average party level** with **varianc
 - S-tier units do NOT increase scaling (finding one should feel good, not punishing)
 
 #### Combat Objectives (3 types for launch)
-| Objective | Description | Frequency |
-|---|---|---|
-| **Rout** | Kill all enemies | ~70% of encounters |
-| **Survive** | Hold out for X turns against waves | ~20% |
-| **Boss** | Defeat the boss (3 phases, adds, terrain) | ~10% |
+
+| Objective   | Description                               | Frequency          |
+| ----------- | ----------------------------------------- | ------------------ |
+| **Rout**    | Kill all enemies                          | ~70% of encounters |
+| **Survive** | Hold out for X turns against waves        | ~20%               |
+| **Boss**    | Defeat the boss (3 phases, adds, terrain) | ~10%               |
 
 **Bonus Objectives** (optional, shown before combat):
+
 - "No unit takes damage" → bonus gold
 - "Win in 3 turns or fewer" → bonus relic choice
 - "Kill all enemies with type advantage" → bonus XP
 
 #### Healing in Combat
+
 Multiple healing sources exist:
+
 - Healing potions (consumable, limited inventory)
 - Caster support abilities (heal/shield allies)
 - Lifesteal relics (heal on kill/damage)
 - Equipment with HP regen effects
 
 #### Death in Combat
+
 - Unit dies → gone permanently
 - **Equipment is lost with the unit** (not recovered)
 - Adds to memorial + combat log
 - If ALL units die → run ends in defeat
 
 #### Fog of War
+
 **Event modifier only** (~20% of fights). Not universal. When active:
+
 - Tiles beyond unit vision range are hidden
 - Enemies are invisible until discovered
 - Scout archetype has extended vision range
 - Creates tension and surprise encounters
 
 #### Static Terrain
+
 Terrain is placed at combat start and does not change during combat. No board manipulation mechanics (no pushing enemies, no creating tiles).
 
 ### 4.4 Type System
 
 #### Design Philosophy
+
 Type interactions should feel **logical**, not arbitrary. Armor type affects how damage is received. Not a simple multiplication table.
 
 #### Four Elements at Launch
-| Element | Strong vs | Weak vs |
-|---|---|---|
-| **Fire** | Nature | Water |
-| **Water** | Fire | Nature |
-| **Nature** | Water | Dark |
-| **Dark** | Nature | Fire |
+
+| Element    | Strong vs | Weak vs |
+| ---------- | --------- | ------- |
+| **Fire**   | Nature    | Water   |
+| **Water**  | Fire      | Nature  |
+| **Nature** | Water     | Dark    |
+| **Dark**   | Nature    | Fire    |
 
 Additional elements (Lightning, Earth, Ice, Light) added post-launch.
 
 #### Weapon/Armor Interactions
+
 Damage type (slash, pierce, magic) interacts with armor type (plate, leather, cloth, natural):
+
 - Arrows bounce off plate armor (reduced damage)
 - Blades cut through cloth (increased damage)
 - Magic ignores physical armor (targets RES instead of DEF)
@@ -341,36 +376,39 @@ Damage type (slash, pierce, magic) interacts with armor type (plate, leather, cl
 ### 4.5 Ability System
 
 #### Ability Slots (up to 4 per unit, scales with tier)
-| Tier | Slots | Structure |
-|---|---|---|
-| C | 1-2 | Personal + maybe 1 class ability |
-| B | 2-3 | Personal + class + 1 level-up choice |
-| A | 3-4 | Personal + class + 2 level-up choices |
-| S | 4 + unique passive | Full kit + tier-exclusive mechanic |
+
+| Tier | Slots              | Structure                             |
+| ---- | ------------------ | ------------------------------------- |
+| C    | 1-2                | Personal + maybe 1 class ability      |
+| B    | 2-3                | Personal + class + 1 level-up choice  |
+| A    | 3-4                | Personal + class + 2 level-up choices |
+| S    | 4 + unique passive | Full kit + tier-exclusive mechanic    |
 
 #### Ability Costs
+
 - Most abilities: Free (1 use per turn as your Action)
 - Powerful abilities: 2-turn cooldown
 - Ultimate abilities (S-tier): 3-turn cooldown
 - No mana system. Cooldowns keep it simple.
 
 #### Equipment-Granted Abilities
+
 Some equipment grants an additional ability beyond the slots. Class-restricted.
 
 ### 4.6 Terrain System
 
 Static terrain, set at combat start:
 
-| Terrain | Movement Cost | Effect |
-|---|---|---|
-| **Plains** | 1 | None |
-| **Forest** | 2 | +20% DEF, blocks ranged line of sight |
-| **Water** | 3 (or impassable) | Water units: +ATK, normal cost. Others: impassable or 3 cost |
-| **Mountain** | Impassable | Flying units only |
-| **Ruins** | 1 | +10% DEF |
-| **Lava** | 1 | 15% max HP damage/turn. Fire units immune. |
-| **Sand** | 2 | -1 MOV while standing on it |
-| **Ice** | 1 | Units slide 1 extra tile. Ice units immune (post-launch element). |
+| Terrain      | Movement Cost     | Effect                                                            |
+| ------------ | ----------------- | ----------------------------------------------------------------- |
+| **Plains**   | 1                 | None                                                              |
+| **Forest**   | 2                 | +20% DEF, blocks ranged line of sight                             |
+| **Water**    | 3 (or impassable) | Water units: +ATK, normal cost. Others: impassable or 3 cost      |
+| **Mountain** | Impassable        | Flying units only                                                 |
+| **Ruins**    | 1                 | +10% DEF                                                          |
+| **Lava**     | 1                 | 15% max HP damage/turn. Fire units immune.                        |
+| **Sand**     | 2                 | -1 MOV while standing on it                                       |
+| **Ice**      | 1                 | Units slide 1 extra tile. Ice units immune (post-launch element). |
 
 Terrain ties into biome identity and element system.
 
@@ -383,6 +421,7 @@ Terrain ties into biome identity and element system.
 Relics are the game's deepest system. Finding the right 2-3 relics to combo is what creates the "YESSS" moment.
 
 #### Relic Philosophy
+
 - Individual relics are good but not game-breaking
 - 2-3 specific relics combined create exponential power spikes
 - You're NEVER guaranteed to become broken — it requires knowledge + luck
@@ -391,6 +430,7 @@ Relics are the game's deepest system. Finding the right 2-3 relics to combo is w
 - Knowledge IS meta-progression: knowing "if I see Burning Touch, I should look for Oil Slick" makes veteran players stronger without any stat increase
 
 #### Relic Categories
+
 - **Combat**: Direct damage/defense effects (Burning Touch, Chain Lightning)
 - **Economy**: Gold/value modifiers (Merchant's Blessing, Golden Purse)
 - **Luck**: LCK and drop quality boosters (Carrot of Fortune, Rabbit's Foot)
@@ -398,13 +438,16 @@ Relics are the game's deepest system. Finding the right 2-3 relics to combo is w
 - **Cursed**: Rare, dramatic. Huge upside, harsh downside (Demon Blade: +80% ATK, 5 damage/turn to wielder)
 
 #### Cursed Relics
+
 Rare and dramatic. Finding one is a big moment. The upside is HUGE but the curse is harsh.
+
 - Appear infrequently in reward choices
 - Cannot be removed once taken (commit to the curse)
 - Some curses can be mitigated by other relics (creating deeper combo discovery)
 - At higher Corruption, more cursed relics appear in the pool
 
 #### Example Relics
+
 - "Burning Touch" — Melee attacks apply Burn (2 dmg/turn, 3 turns)
 - "Chain Lightning" — Lightning damage jumps to 1 adjacent enemy at 50%
 - "Carrot of Fortune" — +5 LCK to all units
@@ -414,6 +457,7 @@ Rare and dramatic. Finding one is a big moment. The upside is HUGE but the curse
 - "Demon Blade" (Cursed) — +80% ATK, unit takes 5 damage per turn
 
 #### Synergy Examples
+
 - "Burning Touch" + "Oil Slick" = fire + terrain = double fire damage
 - "Chain Lightning" + "Conductive Armor" = AoE stun chain
 - "Vampiric Edge" + "Glass Cannon" = high risk, high sustain
@@ -424,11 +468,13 @@ Rare and dramatic. Finding one is a big moment. The upside is HUGE but the curse
 After each combat encounter, choose 1 of 3 random rewards:
 
 #### Equipment (per-unit, 3 slots)
+
 - **Weapon**: Base ATK/MAG, may grant bonus ability (class-restricted)
 - **Armor**: Base DEF/RES, passive effect. Armor TYPE affects type interactions (plate vs leather vs cloth).
 - **Accessory**: Special effect (ring of haste: +1 MOV, amulet of thorns: reflect 10% damage)
 
 #### Consumables (3 inventory slots max)
+
 - **Health Potion**: Heal 1 unit 50% HP
 - **Teleport Stone**: Move 1 unit to any tile (next combat)
 - **Carrot**: +LCK for the run (temporary consumable, large boost). Rabbitson special.
@@ -450,6 +496,7 @@ Slay the Spire-style branching map, themed per biome. Biome order is **random** 
 | **Mystery** | Unknown until entered. Could be any of the above. |
 
 **Run structure**:
+
 - Full deep run = 3 biomes
 - Each biome = ~4-6 nodes before boss
 - Player can EXIT after ANY biome boss (cash out with rewards)
@@ -469,6 +516,7 @@ Two types of secret content:
 Minimal for MVP: 10-15 events. Expandable post-launch.
 
 Events are floor-specific, drawn from weighted pools. No repeats within a run.
+IMPORTANT NOTEFORAIANDHUMANSTODO: KNOW that recruitement events can happen multiple times a run but different recruits never same twice and legendaries can only appear once per run. and if you have a legendary benched or in the party you can't recruit another legendary with the same name hence legendary! and mb you cant even bench legendaries...
 
 **Event categories**:
 | Category | Description |
@@ -502,12 +550,14 @@ Cash goes to persistent hub wallet.
 #### Meta-Currency: Ember
 
 Earned every run (win or lose) based on: biomes cleared, bosses beaten, bonus objectives, units recruited.
+
 - Winning earns significantly more than losing
 - Deeper runs earn more Ember
 
 #### Rabbitson's Insurance (Gambling Mechanic)
 
 Insurance is not a fixed product. Rabbitson offers **random "deals"** before combat:
+
 - "I'll insure your Caster for 40g. If she dies, I'll pay you 80g. Deal?"
 - Rates vary: sometimes a steal, sometimes a ripoff
 - Player evaluates: Is this fight dangerous? Is the rate good?
@@ -520,6 +570,7 @@ A mysterious, unsettling rabbit-like merchant. Inscryption's Leshy meets a dark 
 **Personality**: Polite but wrong. Something is OFF about this rabbit. His deals feel Faustian. He speaks in riddles, makes carrot puns, and his smile never reaches his eyes. Creepy-charming.
 
 **Appears at**:
+
 - Every shop node (buy/sell)
 - Before combat (insurance deals)
 - End of run (unit appraisal)
@@ -527,6 +578,7 @@ A mysterious, unsettling rabbit-like merchant. Inscryption's Leshy meets a dark 
 - When you have no bench units (gives free C-tiers — acts benevolent, feels suspicious)
 
 **The Carrot-Luck System**:
+
 - Carrots are consumables sold by Rabbitson and found in events
 - Eating a carrot: +LCK for the run (boosts loot quality, recruit quality, hidden path discovery)
 - Carrot-synergy relics exist (Golden Carrot, Merchant's Nose, etc.)
@@ -541,6 +593,7 @@ A mysterious, unsettling rabbit-like merchant. Inscryption's Leshy meets a dark 
 **Three pillars** of meta-progression, all using Cash and/or Ember:
 
 #### 1. Hub Upgrades (Ember, scaling costs)
+
 - Expand bench slots (2 → 3 → 4 → 5 → 6)
 - Improve Rabbitson's shop (more items per visit, higher tier items in pool)
 - Improve recruit quality in runs (higher tier units appear more frequently)
@@ -548,6 +601,7 @@ A mysterious, unsettling rabbit-like merchant. Inscryption's Leshy meets a dark 
 - Expand relic pool (more relics available in runs)
 
 #### 2. Starting Loadout (Cash, per-run)
+
 - Buy items/equipment before a run starts from Rabbitson's pre-run shop
 - Loadout items are equipped to specific starting units
 - When a unit is sold at run end, their loadout items are also consumed
@@ -555,6 +609,7 @@ A mysterious, unsettling rabbit-like merchant. Inscryption's Leshy meets a dark 
 - Includes: weapons, shields, rabbit feet (LCK boost), carrots, consumables
 
 #### 3. Content Unlocks (Ember, milestone-gated)
+
 - New biomes
 - New enemy types
 - New relic pools
@@ -566,6 +621,7 @@ A mysterious, unsettling rabbit-like merchant. Inscryption's Leshy meets a dark 
 After first win, unlock Corruption levels (1-20). Each level adds a modifier AND occasionally unlocks new content.
 
 **Modifier Examples**:
+
 - C1: Enemies +10% HP
 - C2: Shop prices +20%
 - C3: 2 reward choices instead of 3
@@ -591,6 +647,7 @@ Persistent across runs. Knowledge IS meta-progression.
 ### 4.16 Save System
 
 **One mode: Classic**
+
 - Save between nodes only (on the overworld map)
 - Save is deleted on load (suspend-save)
 - No mid-combat saving
@@ -600,11 +657,13 @@ Persistent across runs. Knowledge IS meta-progression.
 ### 4.17 Unit Stories + Memorial
 
 #### During a Run
+
 - Recruited units have procedural names, backstories, and personality traits
 - Key combat moments are logged: kills, near-deaths, boss encounters, milestone achievements
 - Personality traits affect stats AND generate combat barks
 
 #### End of Run
+
 - **Survivors sold**: Cash value displayed with a brief run summary per unit
 - **Fallen units**: Added to a Memorial wall at base camp. Name, class, how they died.
 - **Notable recruits**: Units with boss kills, clutch survivals, or bonus objectives get special memorial entries
@@ -616,6 +675,7 @@ Persistent across runs. Knowledge IS meta-progression.
 Biome order is randomized each run. Players cannot predict which biome comes next.
 
 ### Biome 1: The Crypt
+
 - **Terrain**: Stone, pillars (LoS blockers), coffins (cover), darkness
 - **Enemies**: Skeletons (Melee/Dark), Wraiths (Magic/Dark), Bone Archers (Ranged/Dark)
 - **Boss**: The Lich King — summons adds, AoE dark magic, 3 phases
@@ -623,6 +683,7 @@ Biome order is randomized each run. Players cannot predict which biome comes nex
 - **Mood**: Darkest Dungeon meets LIMBO
 
 ### Biome 2: The Depths
+
 - **Terrain**: Water (abundant), coral (cover), whirlpools (pull effect), sand, submerged ruins
 - **Enemies**: Sea Serpents (Melee/Water), Sirens (Magic/Water), Harpoon Hunters (Ranged/Water)
 - **Boss**: The Leviathan — tidal waves, high HP, spawns adds from water tiles
@@ -630,6 +691,7 @@ Biome order is randomized each run. Players cannot predict which biome comes nex
 - **Mood**: Mysterious, deep, bioluminescent
 
 ### Biome 3: The Ashlands
+
 - **Terrain**: Lava, scorched earth, obsidian pillars, ash clouds (vision block)
 - **Enemies**: Fire Golems (Melee/Fire), Ember Mages (Magic/Fire), Ash Snipers (Ranged/Fire)
 - **Boss**: The Infernal — creates lava dynamically, buffs fire enemies, eruption phases
@@ -641,14 +703,16 @@ Biome order is randomized each run. Players cannot predict which biome comes nex
 ## 6. Technical Architecture
 
 ### Key Reference Projects
-| Project | URL | Why |
-|---|---|---|
-| **godot-tactical-rpg** | [github](https://github.com/ramaureirac/godot-tactical-rpg) | Best-documented Godot 4 tactics. Service-oriented, Resource-based state. |
-| **unto-deepest-depths** | [github](https://github.com/theshaggydev/unto-deepest-depths-prototype) | Godot 4 tactics roguelite. Composition-based units, signal-driven. |
-| **The Liquid Fire** | [tutorials](https://theliquidfire.com/category/projects/godot-tactics/) | 18-lesson series: FSM, turn order, items, abilities, status effects. |
-| **GDQuest Movement** | [tutorial](https://www.gdquest.com/tutorial/godot/2d/tactical-rpg-movement/) | Resource-based Grid, AStar2D pathfinding. |
+
+| Project                 | URL                                                                          | Why                                                                      |
+| ----------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **godot-tactical-rpg**  | [github](https://github.com/ramaureirac/godot-tactical-rpg)                  | Best-documented Godot 4 tactics. Service-oriented, Resource-based state. |
+| **unto-deepest-depths** | [github](https://github.com/theshaggydev/unto-deepest-depths-prototype)      | Godot 4 tactics roguelite. Composition-based units, signal-driven.       |
+| **The Liquid Fire**     | [tutorials](https://theliquidfire.com/category/projects/godot-tactics/)      | 18-lesson series: FSM, turn order, items, abilities, status effects.     |
+| **GDQuest Movement**    | [tutorial](https://www.gdquest.com/tutorial/godot/2d/tactical-rpg-movement/) | Resource-based Grid, AStar2D pathfinding.                                |
 
 ### Architecture Patterns
+
 - **Grid**: Resource-based Grid + AStarGrid2D (Godot 4 native)
 - **Units**: Composition over inheritance. Controllers: Stats, Actions, AI
 - **Turns**: Team-based alternating (no telegraphing)
@@ -658,6 +722,7 @@ Biome order is randomized each run. Players cannot predict which biome comes nex
 - **Combat FSM**: Idle → Deploy → SelectUnit → SelectAction → SelectTarget → Execute → EnemyPhase → CheckWinLose
 
 ### Godot Addons to Evaluate
+
 - [ModiBuff](https://godotengine.org/asset-library/asset/2166) — Buff/debuff stacking
 - [EnhancedStat](https://github.com/Zennyth/EnhancedStat) — Stat modifiers
 - [Godot Gameplay Systems](https://godotengine.org/asset-library/asset/932) — Attributes, abilities, equipment
@@ -666,14 +731,14 @@ Biome order is randomized each run. Players cannot predict which biome comes nex
 
 ## 7. Comparable Games Matrix
 
-| Game | What Rabbitson Takes | What Rabbitson Adds |
-|---|---|---|
-| **Fire Emblem** | Grid tactics, weapon types, growth rates, unit permadeath | Roguelike loop, relic synergies, recruit-as-currency, no permanent units |
-| **Binding of Isaac** | 100+ items, combo discovery, continue-deeper structure, community knowledge | Grid tactics, squad management, type system |
-| **Slay the Spire** | Branching map, relic system, tight economy, run structure | Multi-unit tactics, recruit economy, deployment |
-| **Darkest Dungeon** | Dark tone, party management, expedition structure | Grid positioning, relic combos, type matchups |
-| **Hades** | Dark-with-levity tone, meta-progression, Corruption (heat) system | Tactics combat, party management, recruit economy |
-| **LIMBO** | Art style (silhouettes, atmosphere, monochrome) | Everything else (tactics, roguelike, RPG systems) |
+| Game                 | What Rabbitson Takes                                                        | What Rabbitson Adds                                                      |
+| -------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **Fire Emblem**      | Grid tactics, weapon types, growth rates, unit permadeath                   | Roguelike loop, relic synergies, recruit-as-currency, no permanent units |
+| **Binding of Isaac** | 100+ items, combo discovery, continue-deeper structure, community knowledge | Grid tactics, squad management, type system                              |
+| **Slay the Spire**   | Branching map, relic system, tight economy, run structure                   | Multi-unit tactics, recruit economy, deployment                          |
+| **Darkest Dungeon**  | Dark tone, party management, expedition structure                           | Grid positioning, relic combos, type matchups                            |
+| **Hades**            | Dark-with-levity tone, meta-progression, Corruption (heat) system           | Tactics combat, party management, recruit economy                        |
+| **LIMBO**            | Art style (silhouettes, atmosphere, monochrome)                             | Everything else (tactics, roguelike, RPG systems)                        |
 
 **Unique value**: The ONLY game combining grid tactics + roguelike runs + full-temporary warband + recruit-as-currency economy + 100+ relic synergies + logical type system + Limbo-style art.
 
@@ -684,6 +749,7 @@ Biome order is randomized each run. Players cannot predict which biome comes nex
 A complete vertical slice proving the entire gameplay loop:
 
 ### Core Systems
+
 - [ ] Grid combat with deployment phase
 - [ ] 4 archetypes (Vanguard, Marksman, Caster, Scout) — C and B tier only for MVP
 - [ ] Turn system (player phase → enemy phase, no telegraphing)
@@ -697,18 +763,21 @@ A complete vertical slice proving the entire gameplay loop:
 - [ ] Bonus objectives
 
 ### Map & Structure
+
 - [ ] Branching path map (1 biome: The Crypt)
 - [ ] Node types: Combat, Shop, Rest, Event, Elite, Boss
 - [ ] 5-6 nodes before boss
 - [ ] Exit gate after boss (end run)
 
 ### Economy
+
 - [ ] Gold (in-run currency, tight economy)
 - [ ] Cash (end-of-run from unit appraisal)
 - [ ] Ember (meta-currency from progress)
 - [ ] Recruit appraisal with cash value (tier + level + milestones)
 
 ### Rabbitson
+
 - [ ] Shop node (buy/sell, always random inventory)
 - [ ] Insurance deals (random gambling rates before combat)
 - [ ] End-of-run appraisal
@@ -716,6 +785,7 @@ A complete vertical slice proving the entire gameplay loop:
 - [ ] Basic dialogue and personality
 
 ### Unit System
+
 - [ ] Recruitment mid-run (find recruits after combat/events)
 - [ ] Bench system (limited slots, one-use)
 - [ ] Rabbitson safety net (free C-tiers when bench empty)
@@ -725,11 +795,13 @@ A complete vertical slice proving the entire gameplay loop:
 - [ ] S-tier decline → drops legendary item
 
 ### Items & Relics
+
 - [ ] 10 equipment pieces (weapons, armor, accessories)
 - [ ] 15-20 relics (including 2-3 cursed, 3-4 intended combos)
 - [ ] 5 consumables (health potion, teleport stone, carrot, rabbit's foot, type shift crystal)
 
 ### Other Systems
+
 - [ ] Rest nodes (menu: heal, upgrade, train, reroll — pick 2 of 4)
 - [ ] 5-8 events
 - [ ] Basic terrain (plains, forest, ruins, water, lava)
@@ -740,6 +812,7 @@ A complete vertical slice proving the entire gameplay loop:
 - [ ] Basic hub (bench view, cash/ember wallet, pre-run shop, start run)
 
 ### NOT in MVP
+
 - Hidden paths / boss portals
 - Fog of war modifier
 - Biomes 2 and 3
@@ -759,6 +832,7 @@ A complete vertical slice proving the entire gameplay loop:
 ## 9. Open Questions (Resolve Before Implementation)
 
 ### Design
+
 - [ ] Exact type interaction matrix (damage types × armor types) — needs a detailed table
 - [ ] Specific archetype tier names (working names in spec, need final names)
 - [ ] Full ability list per archetype per tier
@@ -771,6 +845,7 @@ A complete vertical slice proving the entire gameplay loop:
 - [ ] What exactly does the pre-run shop offer? Fixed categories or pure random?
 
 ### Art
+
 - [ ] Prototype Limbo-style top-down readability (can you distinguish 6 units on a grid?)
 - [ ] Train custom LoRA on reference silhouettes
 - [ ] Test AI sprite sheet generation consistency
@@ -778,6 +853,7 @@ A complete vertical slice proving the entire gameplay loop:
 - [ ] Determine sprite resolution (the "tile size" question translates differently for silhouettes)
 
 ### Technical
+
 - [ ] Proc gen approach: WFC, BSP, or template-based?
 - [ ] How to handle the suspend-save technically (serialization, state management)
 - [ ] AI art pipeline tooling (set up Stable Diffusion + ControlNet or PixelLab workflow)
@@ -808,43 +884,43 @@ These are shelved ideas, not commitments:
 
 All major decisions made during the v2 design session, for reference:
 
-| Decision | Choice | Rationale |
-|---|---|---|
-| Permanent units | **No** — all units temporary | More roguelike, more tension, more replayable |
-| Tier system | Tier IS class variant (C/B/A/S) | Simpler than tier + rarity. Class name tells you quality. |
-| Run length | Variable: exit after any boss | Isaac-style "continue deeper." Player controls commitment. |
-| RNG level | Moderate (FE-style) | Hit rates + dodge + crit. Not fixed damage, not chaos. |
-| Enemy telegraphing | **None** | FE-style: inspect enemies, read the battlefield. Not ITB puzzles. |
-| Board manipulation | **No** — static terrain | Simplifies combat. Focus on movement + type matchups. |
-| Fog of war | Event modifier only (~20%) | Keeps it surprising without making it the default. |
-| Relic count target | 100+ at launch | Deep combo space. Isaac-scale discovery. |
-| Synergy log | **No** | Organic community discovery. No hand-holding. |
-| Carrots | Boost LCK (loot quality), NOT crit | Crit is separate stat. Carrots are treasure-hunting consumables. |
-| Party LCK | Average of all units | Adding low-LCK units dilutes luck. Composition trade-off. |
-| Insurance | Rabbitson's random gambling deals | Varying rates, per-combat. Another gambling layer. |
-| Cursed items | Rare and dramatic | Big moment when found. Huge upside, harsh downside. |
-| Sacrifice/sell | Shop buyback to Rabbitson | Liquidate unwanted items for gold. |
-| Seeds | None (pure random) | Every run unique. No optimal seed meta-gaming. |
-| Biome order | Random | Forces adaptation. No two runs feel the same. |
-| Bench rules | Limited slots (2→6), one-use, S-tier excluded | Prevents hoarding. Bench is curated, not infinite. |
-| Art style | LIMBO-inspired silhouettes, AI-generated | Distinctive, AI-feasible, matches dark tone. |
-| Tone | Dark with levity (Hades) | Gothic world, humor exists, death is meaningful not depressing. |
-| Rabbitson | Unsettling merchant (Inscryption vibes) | Polite but wrong. Creepy-charming. True final boss at max Corruption. |
-| Multiplayer | Never | Solo experience, period. |
-| Difficulty | One mode (Classic) | Save between nodes, suspend-save. Corruption for scaling. |
-| MVP scope | Full vertical slice | Proves entire loop: combat, map, shop, bench, events, hub. |
-| Fun cores | Combat (Raphael) + Relic combos (friend) | Both must be excellent. Combat is the foundation, combos are the hook. |
-| Gold economy | Tight | 1-2 items per shop visit. Every gold piece matters. |
-| Death equipment | Lost with unit | Makes death more punishing. Protect equipped units. |
-| Combat healing | Multiple sources | Potions, abilities, lifesteal. HP is manageable but scarce. |
-| Archetypes | 4 (Vanguard, Marksman, Caster, Scout) | Tight roster. Each with C/B/A/S variants = 16 types. |
-| Elements | 4 at launch (Fire, Water, Nature, Dark) | Expandable. Simple to learn, room to grow. |
-| Bestiary | Persistent across runs | Knowledge IS meta-progression. |
-| Deployment | Zone shape varies by map | Adds pre-combat strategy. Blind entry creates surprises. |
-| Rest nodes | Pick 2 of 4 actions | Heal, upgrade, train, reroll. Multiple small choices. |
-| Boss design | Unique per biome, 3 phases | Predictable but thematic. Learnable patterns. |
-| True final boss | Rabbitson himself | Max Corruption reveal. Shopkeeper was the villain all along. |
-| Objectives | 3 types for launch | Rout, Survive, Boss. Add more post-launch. |
-| Hidden paths | Map secrets + boss portals | Both luck-gated discovery and RNG post-boss portals. |
-| Early exit rewards | Full rewards + deeper bonus multiplier | Carrot (bonus), not stick (penalty). Incentivize depth without punishing exit. |
-| Auto-battle | Shelved for post-launch | Cool idea, needs good AI. Not MVP. |
+| Decision           | Choice                                        | Rationale                                                                      |
+| ------------------ | --------------------------------------------- | ------------------------------------------------------------------------------ |
+| Permanent units    | **No** — all units temporary                  | More roguelike, more tension, more replayable                                  |
+| Tier system        | Tier IS class variant (C/B/A/S)               | Simpler than tier + rarity. Class name tells you quality.                      |
+| Run length         | Variable: exit after any boss                 | Isaac-style "continue deeper." Player controls commitment.                     |
+| RNG level          | Moderate (FE-style)                           | Hit rates + dodge + crit. Not fixed damage, not chaos.                         |
+| Enemy telegraphing | **None**                                      | FE-style: inspect enemies, read the battlefield. Not ITB puzzles.              |
+| Board manipulation | **No** — static terrain                       | Simplifies combat. Focus on movement + type matchups.                          |
+| Fog of war         | Event modifier only (~20%)                    | Keeps it surprising without making it the default.                             |
+| Relic count target | 100+ at launch                                | Deep combo space. Isaac-scale discovery.                                       |
+| Synergy log        | **No**                                        | Organic community discovery. No hand-holding.                                  |
+| Carrots            | Boost LCK (loot quality), NOT crit            | Crit is separate stat. Carrots are treasure-hunting consumables.               |
+| Party LCK          | Average of all units                          | Adding low-LCK units dilutes luck. Composition trade-off.                      |
+| Insurance          | Rabbitson's random gambling deals             | Varying rates, per-combat. Another gambling layer.                             |
+| Cursed items       | Rare and dramatic                             | Big moment when found. Huge upside, harsh downside.                            |
+| Sacrifice/sell     | Shop buyback to Rabbitson                     | Liquidate unwanted items for gold.                                             |
+| Seeds              | None (pure random)                            | Every run unique. No optimal seed meta-gaming.                                 |
+| Biome order        | Random                                        | Forces adaptation. No two runs feel the same.                                  |
+| Bench rules        | Limited slots (2→6), one-use, S-tier excluded | Prevents hoarding. Bench is curated, not infinite.                             |
+| Art style          | LIMBO-inspired silhouettes, AI-generated      | Distinctive, AI-feasible, matches dark tone.                                   |
+| Tone               | Dark with levity (Hades)                      | Gothic world, humor exists, death is meaningful not depressing.                |
+| Rabbitson          | Unsettling merchant (Inscryption vibes)       | Polite but wrong. Creepy-charming. True final boss at max Corruption.          |
+| Multiplayer        | Never                                         | Solo experience, period.                                                       |
+| Difficulty         | One mode (Classic)                            | Save between nodes, suspend-save. Corruption for scaling.                      |
+| MVP scope          | Full vertical slice                           | Proves entire loop: combat, map, shop, bench, events, hub.                     |
+| Fun cores          | Combat (Raphael) + Relic combos (friend)      | Both must be excellent. Combat is the foundation, combos are the hook.         |
+| Gold economy       | Tight                                         | 1-2 items per shop visit. Every gold piece matters.                            |
+| Death equipment    | Lost with unit                                | Makes death more punishing. Protect equipped units.                            |
+| Combat healing     | Multiple sources                              | Potions, abilities, lifesteal. HP is manageable but scarce.                    |
+| Archetypes         | 4 (Vanguard, Marksman, Caster, Scout)         | Tight roster. Each with C/B/A/S variants = 16 types.                           |
+| Elements           | 4 at launch (Fire, Water, Nature, Dark)       | Expandable. Simple to learn, room to grow.                                     |
+| Bestiary           | Persistent across runs                        | Knowledge IS meta-progression.                                                 |
+| Deployment         | Zone shape varies by map                      | Adds pre-combat strategy. Blind entry creates surprises.                       |
+| Rest nodes         | Pick 2 of 4 actions                           | Heal, upgrade, train, reroll. Multiple small choices.                          |
+| Boss design        | Unique per biome, 3 phases                    | Predictable but thematic. Learnable patterns.                                  |
+| True final boss    | Rabbitson himself                             | Max Corruption reveal. Shopkeeper was the villain all along.                   |
+| Objectives         | 3 types for launch                            | Rout, Survive, Boss. Add more post-launch.                                     |
+| Hidden paths       | Map secrets + boss portals                    | Both luck-gated discovery and RNG post-boss portals.                           |
+| Early exit rewards | Full rewards + deeper bonus multiplier        | Carrot (bonus), not stick (penalty). Incentivize depth without punishing exit. |
+| Auto-battle        | Shelved for post-launch                       | Cool idea, needs good AI. Not MVP.                                             |
