@@ -1,0 +1,35 @@
+# Godot 4+
+.godot/
+.nomedia
+
+# Godot legacy
+.import/
+
+# Export
+export.cfg
+export_credentials.cfg
+
+# Compiled translations
+*.translation
+
+# Mono/C# (if ever used)
+.mono/
+data_*/
+mono_crash.*.json
+
+# Temp files
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor backups
+*.swp
+*.swo
+*~
+
+# Override global gitignore: force-include AI config for this project
+!.claude/
+!.claude/CLAUDE.md
+!.antigravity/
