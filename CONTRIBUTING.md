@@ -16,13 +16,13 @@ The setup script checks and installs prerequisites automatically.
 |---|---|---|
 | [Godot 4.4+](https://godotengine.org/download/) | Yes | `brew install --cask godot` or download |
 | [Git LFS](https://git-lfs.com/) | Yes | `brew install git-lfs` |
-| [uv](https://docs.astral.sh/uv/) | For MCP | `curl -LsSf https://astral.sh/uv/install.sh \| sh` |
+| [Node.js](https://nodejs.org/) | For MCP | `brew install node` or download |
 
 ## AI Tool Setup
 
 We use AI coding assistants. Both are configured in the repo.
 
-### Claude Code
+### Claude Code (Raphael)
 
 **Rules**: `.claude/CLAUDE.md` (loaded automatically when you open the project with Claude Code)
 
@@ -31,27 +31,36 @@ We use AI coding assistants. Both are configured in the repo.
 npx ai-agent-skills install Randroids-Dojo/Godot-Claude-Skills --agent claude
 ```
 
-**GDAI MCP** (after enabling the Godot plugin):
-```bash
-claude mcp add gdai-mcp uv run <path-from-gdai-tab-in-godot>
-```
-
 ### Google Antigravity
 
-**Rules**: `.antigravity/rules.md` (loaded automatically)
+**Rules**: `.antigravity/rules.md` (loaded automatically when you open the project folder)
 
-**GDAI MCP**: Paste the JSON config from Godot's GDAI MCP tab into Antigravity's MCP settings panel.
+**MCP**: `.antigravity/mcp.json` (loaded automatically — project-scoped, no global config needed)
 
-### GDAI MCP Server (shared)
+### Godot MCP Server (included in repo)
 
-The [GDAI MCP Server](https://gdaimcp.com/) lets AI tools interact with the Godot editor directly — create scenes, edit scripts, read errors, run the project.
+The [Godot MCP Server](https://github.com/ee0pdt/Godot-MCP) is bundled at `.mcp/godot-mcp/`. It lets AI tools interact with the Godot editor — create scenes, edit scripts, read errors, manipulate the scene tree.
 
-1. Download the plugin from [gdaimcp.com/docs/installation](https://gdaimcp.com/docs/installation)
-2. Copy `addons/gdai-mcp-plugin-godot/` into this project's `addons/` folder
-3. Open the project in Godot
-4. Go to **Project > Project Settings > Plugins** and enable "GDAI MCP"
-5. A "GDAI MCP" tab appears in the bottom panel — copy the config shown there
-6. Add to your AI tool (see Claude Code or Antigravity sections above)
+**First-time setup (run once after cloning):**
+
+```bash
+cd .mcp/godot-mcp/server
+npm install
+npm run build
+```
+
+**Enable the Godot plugin:**
+
+1. Open the project in Godot
+2. Go to **Project > Project Settings > Plugins**
+3. Enable **"Godot MCP"**
+
+**Antigravity**: MCP is auto-configured via `.antigravity/mcp.json`. Just open the project folder in Antigravity — it reads the config automatically.
+
+**Claude Code** (optional): To add MCP to Claude Code too:
+```bash
+claude mcp add godot-mcp node .mcp/godot-mcp/server/dist/index.js
+```
 
 ## Coding Standards
 

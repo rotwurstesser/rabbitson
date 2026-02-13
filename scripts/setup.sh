@@ -40,29 +40,53 @@ else
     fi
 fi
 
-# 3. uv (for GDAI MCP)
-if command -v uv &>/dev/null; then
-    ok "uv installed: $(uv --version)"
+# 3. Node.js (for MCP server)
+if command -v node &>/dev/null; then
+    ok "Node.js found: $(node --version)"
 else
-    warn "uv not installed. Installing..."
-    curl -LsSf https://astral.sh/uv/install.sh | sh
-    ok "uv installed"
+    warn "Node.js not installed. Required for MCP server."
+    warn "Install: brew install node  OR  https://nodejs.org/"
 fi
 
-# 4. Detect AI tool
+# 4. Build MCP server
+echo ""
+echo "--- Godot MCP Server ---"
+if [ -d ".mcp/godot-mcp/server" ]; then
+    if [ -d ".mcp/godot-mcp/server/node_modules" ]; then
+        ok "MCP server dependencies already installed"
+    else
+        echo "  Installing MCP server dependencies..."
+        (cd .mcp/godot-mcp/server && npm install 2>&1) && ok "MCP server dependencies installed"
+    fi
+    if [ -f ".mcp/godot-mcp/server/dist/index.js" ]; then
+        ok "MCP server already built"
+    else
+        echo "  Building MCP server..."
+        (cd .mcp/godot-mcp/server && npm run build 2>&1) && ok "MCP server built"
+    fi
+else
+    fail "MCP server not found at .mcp/godot-mcp/server"
+fi
+
+# 5. Godot MCP plugin check
+if [ -d "addons/godot_mcp" ]; then
+    ok "Godot MCP plugin found in addons/"
+    echo "  Enable it in Godot: Project > Project Settings > Plugins > Godot MCP"
+else
+    fail "Godot MCP plugin not found in addons/godot_mcp"
+fi
+
+# 6. Detect AI tool
 echo ""
 echo "--- AI Tool Setup ---"
 
 # Claude Code
 if command -v claude &>/dev/null; then
     ok "Claude Code detected"
-    echo "  Project rules: .claude/CLAUDE.md"
+    echo "  Project rules: .claude/CLAUDE.md (loaded automatically)"
     echo ""
     echo "  To install Godot skills, run outside of a Claude session:"
     echo "    npx ai-agent-skills install Randroids-Dojo/Godot-Claude-Skills --agent claude"
-    echo ""
-    echo "  To add GDAI MCP (after enabling the Godot plugin):"
-    echo "    claude mcp add gdai-mcp uv run <path-from-gdai-tab>"
 else
     warn "Claude Code not detected (install: https://claude.com/download)"
 fi
@@ -71,23 +95,9 @@ fi
 if command -v antigravity &>/dev/null || [ -d "$HOME/.antigravity" ]; then
     ok "Google Antigravity detected"
     echo "  Project rules: .antigravity/rules.md (loaded automatically)"
-    echo ""
-    echo "  To add GDAI MCP:"
-    echo "    Paste the JSON config from Godot's GDAI MCP tab into Antigravity's MCP settings"
+    echo "  MCP config: .antigravity/mcp.json (project-scoped, loaded automatically)"
 else
     warn "Google Antigravity not detected (install: https://antigravityai.org/)"
-fi
-
-# 5. GDAI MCP plugin check
-echo ""
-echo "--- GDAI MCP Plugin ---"
-if [ -d "addons/gdai-mcp-plugin-godot" ]; then
-    ok "GDAI MCP plugin found in addons/"
-    echo "  Enable it in Godot: Project > Project Settings > Plugins"
-else
-    warn "GDAI MCP plugin not found."
-    echo "  Download from: https://gdaimcp.com/docs/installation"
-    echo "  Copy addons/gdai-mcp-plugin-godot/ into this project's addons/ folder"
 fi
 
 echo ""

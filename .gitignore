@@ -29,6 +29,9 @@ Thumbs.db
 *.swo
 *~
 
+# MCP server dependencies (rebuilt locally via npm install)
+.mcp/godot-mcp/server/node_modules/
+
 # Override global gitignore: force-include AI config for this project
 !.claude/
 !.claude/CLAUDE.md
