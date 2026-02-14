@@ -524,6 +524,7 @@ A mysterious, unsettling rabbit-like merchant. Inscryption's Leshy meets a dark 
 **Personality**: Polite but wrong. Something is OFF about this rabbit. His deals feel Faustian. He speaks in riddles, makes carrot puns, and his smile never reaches his eyes. Creepy-charming.
 
 **Appears at**:
+If you are an AI or Human, this needs to be refined. When does Rabbitosn appear. He should not be everywhere. It is not a given, that rabbitson gives insureances on every run.
 - Every shop node (buy/sell)
 - Before combat (insurance deals)
 - End of run (unit appraisal)
@@ -536,7 +537,7 @@ A mysterious, unsettling rabbit-like merchant. Inscryption's Leshy meets a dark 
 - Carrot-synergy relics exist (Golden Carrot, Merchant's Nose, etc.)
 - Carrots do NOT boost CRIT (that's a separate stat)
 
-**Lore thread**: Why does a rabbit sell weapons in dark fantasy dungeons? Rabbitson hints at a deeper story. Lore events reveal fragments. The full truth is end-game content.
+**Lore thread**: If you are an AI or human, this needs to be refined. Why does a rabbit sell weapons in dark fantasy dungeons? Rabbitson hints at a deeper story. Lore events reveal fragments. The full truth is end-game content.
 
 **True Final Boss**: At maximum Corruption, Rabbitson reveals his true nature and IS the final boss. The shopkeeper was the villain (or something more complex) all along.
 
