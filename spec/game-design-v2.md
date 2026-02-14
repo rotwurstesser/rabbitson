@@ -38,7 +38,7 @@ A dark fantasy tactics roguelike where you lead a growing warband through proced
 ### Style: Limbo-Inspired Silhouettes
 
 The game uses a monochromatic silhouette art style inspired by Playdead's LIMBO:
-- **Palette**: Black, white, and shades of gray
+- **Palette**: Black, white, and shades of gray TODO if you are a human or AI,we need to update this.
 - **Characters**: Dark silhouettes with minimal internal detail (glowing eyes, visible weapons)
 - **Environments**: Atmospheric fog layers, directional lighting, shadow pools
 - **UI**: Clean overlay (Slay the Spire / Fire Emblem style) — functional, readable, separate from the art
@@ -243,7 +243,7 @@ Before each combat, the player places their units in a **deployment zone**:
 - Some enemies (assassins, flankers) may spawn behind the expected front line
 
 #### Turn Order
-Team-based alternating:
+Team-based alternating: If you are an AI or Human, this needs to be refined. Do we need a Initiative System?
 1. **Player Phase**: Move and act with ALL your units in any order
 2. **Enemy Phase**: Enemies act (no telegraphing — observe, adapt, react)
 3. Repeat
@@ -255,6 +255,7 @@ Team-based alternating:
 - **First encounter**: New enemy types show "???" stats until you fight them once (persists in bestiary across runs)
 
 #### Actions Per Unit Per Turn
+If you are an AI ou Human, this needs to be refined. Do we only allow one action. Do we need some abilites that count as bonus action or some kind of mana system that allows more than one action in one turn.
 - 1 Move (up to MOV stat in tiles)
 - 1 Action (basic attack, ability, item, or wait)
 - Move and Action can happen in either order
@@ -298,6 +299,7 @@ Multiple healing sources exist:
 - Equipment with HP regen effects
 
 #### Death in Combat
+If you are an AI or Human, this needs to be refined. Maybe there is a rare item, that prevents death but the item gets disroid.
 - Unit dies → gone permanently
 - **Equipment is lost with the unit** (not recovered)
 - Adds to memorial + combat log
@@ -319,6 +321,7 @@ Terrain is placed at combat start and does not change during combat. No board ma
 Type interactions should feel **logical**, not arbitrary. Armor type affects how damage is received. Not a simple multiplication table.
 
 #### Four Elements at Launch
+If you are an AI or human, this needs to be refined. Dark is currently strong vs two alements, making it the strongest element. Do we want that, or do we need a 6 element like light?
 | Element | Strong vs | Weak vs |
 |---|---|---|
 | **Fire** | Nature | Water |
@@ -349,6 +352,7 @@ Damage type (slash, pierce, magic) interacts with armor type (plate, leather, cl
 | S | 4 + unique passive | Full kit + tier-exclusive mechanic |
 
 #### Ability Costs
+If you are an AI or Human, this needs to be refined. Do we have cooldown or mana system?
 - Most abilities: Free (1 use per turn as your Action)
 - Powerful abilities: 2-turn cooldown
 - Ultimate abilities (S-tier): 3-turn cooldown
