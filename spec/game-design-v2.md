@@ -7,6 +7,8 @@
 
 ---
 
+Todo for AI or human: define movement system and agility system (who strikes first and how fast do tehy move and how many actions can be taken per turn) 
+
 ## 1. Elevator Pitch
 
 **Fire Emblem tactics combat inside a Binding of Isaac roguelike structure, with deep relic synergies and a mercenary economy where every unit is both your sword and your payday.**
